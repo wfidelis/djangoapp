@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title%}
+	<title> Home Page </title>
+	<style>
+      		.container {
+        text-align: center;}
+    	</style>
+
+{% endblock title %}
+
+{% block content %}
+        <div class="container">
+		<div class = "row mt-5 ">
+                        <div class="col-lg-12">
+                                <img src="{% static 'img/jen-p-FoG8lotg7AA-unsplash.jpg' %}"width="950" height="950" alt='Image'>
+                        </div>
+
+		<div class="row mt-4">
+			<div class="col align-self-center">
+				<center><p class = 'h2'> Quick to use and operate! </p></center>
+
+				<center><p class = 'h3'> Web Developement is so much fun! </p></center>
+
+                        	<center><p class = 'h4'> I am doing a great job of writting this! </p></center>
+
+				<center><a href = '{%url 'blogpost' %}'><button type="button" class="btn btn-primary btn-lg mt-3">Let's Get Started</button></center></a>
+
+			</div>
+
+		</div>   
+
+   
+		</div>
+        </div>
+{%endblock content%}

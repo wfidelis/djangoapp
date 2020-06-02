@@ -1,0 +1,83 @@
+{%extends 'base.html' %}
+
+{% block title%}
+ 	<title> Blog  </title>
+{% endblock title%}
+
+{%block content %} 
+  	<div class="container">
+         <br>
+	 {% if messages %}
+	 	{% for message in messages %}
+	 		<div class="alert alert-primary alert-dismissible fade show " role="alert">
+	 			{{message}}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					<span aria-hidden="true">&times;</span>
+  				</button>
+			</div>
+	 	{% endfor %}
+	{% endif %}
+	 <form method = 'POST' class = "row"  action="">
+		{% csrf_token %}
+    		<input type="text" class="form-control col-lg-10" name = 'notes'  placeholder = 'new blog' >
+
+  		<button type="submit" class="btn btn-primary col-lg-2">Add Blog</button>
+	</form>
+	<br>
+		<table class="table table-primary text-center">
+
+ 			<thead class ="thead-dark">
+   				<tr>
+      					<th scope="col">Blog </th>
+      					<th scope="col">Done</th>
+      					<th scope="col">Date</th>
+      					<th scope="col">Edit</th>
+      					<th scope="col">Delete</th>
+    				</tr>
+			</thead>
+  			<tbody>
+			{% if all_blogs %}
+				{% for item in all_blogs %}
+					{% if item.done %}
+    						<tr class="table-success">
+							<td><del>{{item.notes}}</del></td>
+							<td > <a href="{% url 'pending_task' item.id %}"><button type="button" class="btn btn-info">Mark This Task As Pending</button></a> </td>
+							<td>{{item.date}}</td>
+      							<td><a href="{% url 'edit_task' item.id %}"><button type="button" class="btn btn-warning">Edit</button></a></td>
+							<td> <a href="{% url 'delete_task' item.id %}"><button type="button" class="btn btn-danger">Delete</button></a> </td>
+    						</tr>
+					{% else%}
+				        	 <tr class="table">
+							 <td >{{item.notes}} </td>
+							 <td > <a href="{% url 'complete_task' item.id %}"><button type="button" class="btn btn-info">Mark This Task As Completed</button></a> </td>
+                                               		<td>{{item.date}}</td>
+                                                	<td> <a href="{% url 'edit_task' item.id %}"><button type="button" class="btn btn-warning">Edit</button></a> </td>
+							<td> <a href="{% url 'delete_task' item.id %}"><button type="button" class="btn btn-danger">Delete</button></a> </td>
+                                        	</tr>
+                                	{% endif %}
+
+				{% endfor %}
+			{% endif %}
+  			</tbody>
+		</table>
+
+		<nav aria-label="Page navigation example">
+  			<ul class="pagination justify-content-end">
+				<li class="page-item"> <a class="page-link" href="?pg=1"><<</a></li>
+
+				{% if all_blogs.has_previous%}
+					<li class="page-item"> <a class="page-link" href="?pg={{all_blogs.previous_page_number}}">{{all_blogs.previous_page_number}}</a></li>
+				{% endif %}
+				
+
+				<li class="page-item"> <a class="page-link" href="?pg={{all_blogs.number}}">{{all_blogs.number}}</a> </li>
+
+				{%if all_blogs.has_next %}
+					<li class="page-item"> <a class="page-link" href="?pg={{all_blogs.next_page_number}}">{{all_blogs.next_page_number}}</a></li>
+				{% endif %}
+
+				<li class="page-item"> <a class="page-link" href="?pg={{all_blogs.paginator.num_pages}}">>></a></li>
+  			</ul>
+		</nav>
+	</div>
+{%endblock content%}
