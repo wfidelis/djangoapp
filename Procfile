@@ -1,1 +1,1 @@
-web: gunicorn bloapp.wsgi
+web: gunicorn taskmate.wsgi
